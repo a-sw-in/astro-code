@@ -1143,7 +1143,6 @@ export default function HealthAssessmentForm() {
       <div className="assessment-console">
         <header className="assessment-console-header">
           <div className="assessment-title-block">
-            <span className="assessment-orbit-mark" aria-hidden="true">✦</span>
             <div>
               <p className="assessment-eyebrow">ASTRO CODE BLUE / CREW HEALTH RECORD</p>
               <h1>HEALTH SELF-ASSESSMENT</h1>
@@ -1191,7 +1190,7 @@ export default function HealthAssessmentForm() {
                   }}
                   title="Sync to current system time"
                 >
-                  ✦ Sync to System Time (Now)
+                  Sync to System Time (Now)
                 </button>
               </div>
               <input

@@ -37,22 +37,7 @@
 
 .assessment-title-block {
   justify-content: flex-start;
-  gap: 18px;
   min-width: 0;
-}
-
-.assessment-orbit-mark {
-  display: grid;
-  width: 52px;
-  height: 52px;
-  flex: 0 0 auto;
-  place-items: center;
-  border: 1px solid rgb(0 212 255 / 35%);
-  border-radius: 50%;
-  background: radial-gradient(circle, rgb(22 139 255 / 20%), #030b14 70%);
-  color: #a9f3ff;
-  font-size: 22px;
-  box-shadow: 0 0 24px rgb(22 139 255 / 15%), inset 0 0 15px rgb(0 212 255 / 8%);
 }
 
 .assessment-eyebrow,
@@ -123,7 +108,7 @@
 .assessment-intro-strip {
   gap: 18px;
   margin-bottom: 14px;
-  border: 1px solid rgb(0 212 255 / 15%);
+  border: 1px solid rgba(6, 37, 44, 0.15);
   border-radius: 6px;
   background: linear-gradient(105deg, rgb(7 22 38 / 94%), rgb(3 11 20 / 85%));
   padding: 13px 16px;
@@ -156,7 +141,7 @@
 .astronaut-assessment-form {
   border: 1px solid rgb(99 143 182 / 20%);
   border-radius: 9px;
-  background: linear-gradient(145deg, rgb(5 15 27 / 97%), rgb(2 8 15 / 97%));
+  background: linear-gradient(145deg, rgba(13, 38, 68, 0.97), rgb(2 8 15 / 97%));
   padding: clamp(15px, 2.4vw, 26px);
   box-shadow: 0 18px 45px rgb(0 0 0 / 24%), inset 0 1px rgb(255 255 255 / 2%);
 }
@@ -1148,16 +1133,6 @@
 
   .content.astronaut-assessment-page {
     padding: 20px 12px 30px;
-  }
-
-  .assessment-title-block {
-    gap: 12px;
-  }
-
-  .assessment-orbit-mark {
-    width: 42px;
-    height: 42px;
-    font-size: 18px;
   }
 
   .assessment-title-block h1 {
