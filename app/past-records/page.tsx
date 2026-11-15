@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import PastRecordsDashboard from "../components/past-records-dashboard";
+import "./past-records.css";
 
 export const metadata = {
   title: "Past Health Records | ASTRO CODE BLUE",

@@ -17,10 +17,6 @@ export type HealthReading = {
   breakdown?: string;
 };
 
-export function MissionBackground() {
-  return <div className="space-backdrop" aria-hidden="true" />;
-}
-
 export function HealthLevel({ readings }: { readings: HealthReading[] }) {
   return (
     <div className="health-readings">

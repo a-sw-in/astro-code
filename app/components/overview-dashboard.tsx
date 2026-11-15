@@ -5,7 +5,6 @@ import { useCallback, useEffect, useState } from "react";
 import {
   HealthTrendCard,
   HealthLevel,
-  MissionBackground,
   SleepChart,
   type HealthReading,
 } from "./overview-panels";
@@ -219,8 +218,6 @@ export default function OverviewDashboard() {
   return (
     <main className="content overview-page">
       <div className="overview-workspace">
-        <MissionBackground />
-
         {storageError && (
           <p className="overview-storage-error" role="status">
             {storageError}

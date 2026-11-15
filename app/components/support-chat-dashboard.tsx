@@ -217,7 +217,7 @@ export default function SupportChatDashboard() {
   }
 
   return (
-    <div className="support-container">
+    <main className="support-container">
       {/* Left Sidebar: Sessions & History */}
       <aside className="support-sidebar">
         <div className="support-sidebar-header">
@@ -231,11 +231,11 @@ export default function SupportChatDashboard() {
 
         <div className="sessions-list-scroll">
           {isLoadingSessions && sessions.length === 0 ? (
-            <div style={{ padding: "20px", textAlign: "center", color: "#64748b", fontSize: "0.8rem" }}>
+            <div className="support-list-message">
               Loading tele-triage sessions...
             </div>
           ) : sessions.length === 0 ? (
-            <div style={{ padding: "20px", textAlign: "center", color: "#64748b", fontSize: "0.8rem" }}>
+            <div className="support-list-message">
               No previous support sessions recorded.
             </div>
           ) : (
@@ -296,34 +296,26 @@ export default function SupportChatDashboard() {
             </h2>
             <div className="chat-header-meta">
               <span>
-                SESSION: <strong style={{ color: "#38bdf8" }}>{activeSession?.session_id || "..."}</strong>
+                SESSION: <strong className="support-meta-accent">{activeSession?.session_id || "..."}</strong>
               </span>
               <span>
                 STATUS:{" "}
-                <strong
-                  style={{
-                    color: activeSession?.status === "ACTIVE" ? "#4ade80" : "#94a3b8",
-                  }}
-                >
+                <strong className={`support-meta-status${activeSession?.status === "ACTIVE" ? " is-active" : " is-ended"}`}>
                   {activeSession?.status || "INITIALIZING"}
                 </strong>
               </span>
               <span>
-                ASTRONAUT: <strong>ACB-014</strong>
+                ASTRONAUT: <strong className="support-meta-value">ACB-014</strong>
               </span>
               <span>
-                TELEMETRY DB: <strong style={{ color: "#38bdf8" }}>astro_code_blue.db (LIVE LINKED)</strong>
+                TELEMETRY DB: <strong className="support-meta-accent">astro_code_blue.db (LIVE LINKED)</strong>
               </span>
               <span>
-                TRIAGE DB: <strong style={{ color: "#a78bfa" }}>astro_support.db</strong>
+                TRIAGE DB: <strong className="support-meta-value">astro_support.db</strong>
               </span>
               <span>
                 KAGGLE AI:{" "}
-                <strong
-                  style={{
-                    color: kaggleOnline === null ? "#94a3b8" : kaggleOnline ? "#4ade80" : "#f59e0b",
-                  }}
-                >
+                <strong className={`support-meta-status${kaggleOnline === null ? " is-checking" : kaggleOnline ? " is-online" : " is-offline"}`}>
                   {kaggleOnline === null ? "CHECKING..." : kaggleOnline ? "🟢 QWEN 2.5 ONLINE" : "🔴 OFFLINE"}
                 </strong>
               </span>
@@ -414,7 +406,7 @@ export default function SupportChatDashboard() {
                 <span>Flight Surgeon AI</span>
                 <span>Evaluating physiological telemetry...</span>
               </div>
-              <div className="bubble-body" style={{ color: "#38bdf8", fontStyle: "italic" }}>
+              <div className="bubble-body is-pending">
                 Analyzing symptoms against NASA space medicine protocols...
               </div>
             </div>
@@ -474,7 +466,7 @@ export default function SupportChatDashboard() {
             <div className="summary-modal-header">
               <div>
                 <h2>AI Clinical Triage Summary & Report</h2>
-                <span style={{ fontSize: "0.78rem", color: "#94a3b8" }}>
+                <span className="summary-modal-subtitle">
                   Official Record filed in Mission Tele-Triage Database
                 </span>
               </div>
@@ -509,11 +501,7 @@ export default function SupportChatDashboard() {
                 </div>
                 <div className="meta-field">
                   <label>Flight Surgeon Escalation</label>
-                  <span
-                    style={{
-                      color: selectedSummarySession.escalated ? "#f87171" : "#4ade80",
-                    }}
-                  >
+                  <span className={`support-escalation-status${selectedSummarySession.escalated ? " is-escalated" : " is-resolved"}`}>
                     {selectedSummarySession.escalated ? "ESCALATED TO GROUND" : "CABIN RESOLVED"}
                   </span>
                 </div>
@@ -587,6 +575,6 @@ export default function SupportChatDashboard() {
         </div>
       )}
 
-    </div>
+    </main>
   );
 }
