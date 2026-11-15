@@ -798,6 +798,23 @@ function getDb(): DatabaseSync {
       key_recommendations TEXT,
       messages TEXT
     );
+
+    CREATE TABLE IF NOT EXISTS ground_control_chat_summaries (
+      session_id TEXT PRIMARY KEY,
+      astronaut_id TEXT DEFAULT 'ACB-014',
+      created_at TEXT NOT NULL,
+      ended_at TEXT,
+      deleted_at TEXT,
+      status TEXT DEFAULT 'ACTIVE',
+      chief_complaint TEXT,
+      triage_level TEXT DEFAULT 'ROUTINE',
+      escalated INTEGER DEFAULT 0,
+      escalation_reason TEXT,
+      summary TEXT,
+      key_recommendations TEXT,
+      total_messages INTEGER DEFAULT 0,
+      is_deleted INTEGER DEFAULT 0
+    );
   `);
   return db;
 }
@@ -1407,6 +1424,43 @@ export function getSessionById(sessionId: string): SupportSessionRecord | null {
 export function deleteSession(sessionId: string): boolean {
   try {
     const db = getDb();
+    const session = getSessionById(sessionId);
+    if (session) {
+      let summaryText = session.summary;
+      let keyRecs = session.key_recommendations || [];
+      if (!summaryText && session.messages && session.messages.length > 0) {
+        try {
+          const gen = generateSessionSummary(session.messages);
+          summaryText = gen.summary;
+          keyRecs = gen.keyRecommendations;
+        } catch {}
+      }
+      if (!summaryText) {
+        summaryText = `Session ${sessionId} concluded by crew. Chief inquiry: '${session.chief_complaint}'. Triage: ${session.triage_level}.`;
+      }
+
+      // Archive session summary permanently for Ground Control before deleting raw session
+      db.prepare(`
+        INSERT OR REPLACE INTO ground_control_chat_summaries (
+          session_id, astronaut_id, created_at, ended_at, deleted_at, status,
+          chief_complaint, triage_level, escalated, escalation_reason, summary,
+          key_recommendations, total_messages, is_deleted
+        ) VALUES (?, ?, ?, ?, ?, 'DELETED', ?, ?, ?, ?, ?, ?, ?, 1)
+      `).run(
+        session.session_id,
+        session.astronaut_id,
+        session.created_at,
+        session.ended_at || null,
+        getLocalTimestamp(),
+        session.chief_complaint,
+        session.triage_level,
+        session.escalated ? 1 : 0,
+        session.escalation_reason || null,
+        summaryText,
+        JSON.stringify(keyRecs),
+        session.messages.length
+      );
+    }
     const res = db.prepare(`DELETE FROM support_chat_sessions WHERE session_id = ?`).run(sessionId);
     return res.changes > 0;
   } catch (err) {
@@ -1548,6 +1602,28 @@ export function endSessionAndSummarize(sessionId: string): {
     JSON.stringify(msgs),
     sessionId
   );
+
+  try {
+    db.prepare(`
+      INSERT OR REPLACE INTO ground_control_chat_summaries (
+        session_id, astronaut_id, created_at, ended_at, deleted_at, status,
+        chief_complaint, triage_level, escalated, escalation_reason, summary,
+        key_recommendations, total_messages, is_deleted
+      ) VALUES (?, ?, ?, ?, NULL, 'ENDED', ?, ?, ?, ?, ?, ?, ?, 0)
+    `).run(
+      session.session_id,
+      session.astronaut_id,
+      session.created_at,
+      nowStr,
+      session.chief_complaint,
+      summaryData.triageLevel,
+      summaryData.escalated ? 1 : 0,
+      summaryData.escalationReason || null,
+      summaryData.summary,
+      JSON.stringify(summaryData.keyRecommendations),
+      msgs.length
+    );
+  } catch {}
 
   const updatedSession = getSessionById(sessionId)!;
   return {

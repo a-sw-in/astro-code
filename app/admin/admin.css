@@ -1,0 +1,40 @@
+/* ASTRO CODE BLUE — Ground Control Isolation Stylesheet */
+
+/* When inside the admin panel, isolate it from the astronaut dashboard frame */
+body:has(.admin-scope) .sidebar,
+body:has(.admin-scope) .topbar {
+  display: none !important;
+}
+
+body:has(.admin-scope) .main-area {
+  margin-left: 0 !important;
+  width: 100% !important;
+  max-width: 100vw !important;
+  min-height: 100vh !important;
+  padding: 0 !important;
+}
+
+body:has(.admin-scope) .dashboard {
+  display: block !important;
+  min-height: 100vh !important;
+  width: 100% !important;
+}
+
+/* Animations */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(22, 139, 255, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(22, 139, 255, 0.4);
+  }
+}
