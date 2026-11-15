@@ -4,6 +4,19 @@ import uuid
 from datetime import datetime, timezone
 from typing import Literal
 
+# Auto-load project root .env into os.environ if present
+env_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".env")
+if os.path.exists(env_file):
+    try:
+        with open(env_file, "r", encoding="utf-8") as _f:
+            for _line in _f:
+                _line = _line.strip()
+                if _line and not _line.startswith("#") and "=" in _line:
+                    _k, _v = _line.split("=", 1)
+                    os.environ.setdefault(_k.strip(), _v.strip().strip("'\""))
+    except Exception:
+        pass
+
 from sqlalchemy.orm import Session
 from fastapi import Depends, HTTPException
 import database

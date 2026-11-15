@@ -8,6 +8,9 @@ from datetime import datetime
 KAGGLE_URL_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "kaggle_url.txt")
 
 def get_kaggle_url() -> str:
+    env_url = (os.environ.get("KAGGLE_AI_URL") or os.environ.get("NEXT_PUBLIC_KAGGLE_AI_URL") or "").strip()
+    if env_url:
+        return env_url
     if os.path.exists(KAGGLE_URL_FILE):
         try:
             with open(KAGGLE_URL_FILE, "r", encoding="utf-8") as f:
@@ -16,7 +19,7 @@ def get_kaggle_url() -> str:
                     return val
         except Exception:
             pass
-    return os.environ.get("KAGGLE_AI_URL", "https://optical-art-plot-nascar.trycloudflare.com/").strip()
+    return ""
 
 def set_kaggle_url(url: str):
     global KAGGLE_AI_URL
