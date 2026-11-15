@@ -7,7 +7,7 @@ async function probeKaggleUrl(rawUrl: string): Promise<{ isOnline: boolean; erro
 
   try {
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 3500);
+    const timeoutId = setTimeout(() => controller.abort(), 8000);
 
     const res = await fetch(`${url}/docs`, {
       method: "GET",

@@ -1,0 +1,24 @@
+# =====================================================================
+# ASTRO CODE BLUE — BACKEND REQUIREMENTS
+# Install with: pip install -r requirements.txt
+# =====================================================================
+
+# Core Web API Framework & ASGI Server
+fastapi>=0.100.0
+uvicorn[standard]>=0.23.0
+
+# Data Validation & Schema Modeling
+pydantic>=2.0.0
+
+# Database ORM (SQLite / SQLAlchemy)
+sqlalchemy>=2.0.0
+
+# Numerical, Time-Series & Statistical Analysis
+numpy>=1.24.0
+pandas>=2.0.0
+
+# Environment Configuration Loader
+python-dotenv>=1.0.0
+
+# HTTP Client Utilities
+requests>=2.31.0

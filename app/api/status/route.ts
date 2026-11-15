@@ -3,7 +3,7 @@ import { KAGGLE_AI_URL, BACKEND_URL } from "@/app/lib/config";
 import path from "node:path";
 import fs from "node:fs";
 
-async function probeUrl(url: string, timeoutMs = 3500): Promise<boolean> {
+async function probeUrl(url: string, timeoutMs = 8000): Promise<boolean> {
   const trimmed = url.trim().replace(/\/+$/, "");
   if (!trimmed) return false;
   try {
