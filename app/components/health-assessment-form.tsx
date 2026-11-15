@@ -604,7 +604,6 @@ export default function HealthAssessmentForm() {
   const [submittedRecord, setSubmittedRecord] = useState<StructuredAssessmentRecord | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [backendError, setBackendError] = useState("");
-  const [backendStatus, setBackendStatus] = useState<"checking" | "connected" | "disconnected">("checking");
 
   // Today's cumulative totals (multi-submission per day)
   const [todayCumulative, setTodayCumulative] = useState<{
@@ -630,27 +629,6 @@ export default function HealthAssessmentForm() {
     }
   }, []);
 
-  // Kaggle AI Qwen 2.5 — status only (URL is read from env/config, not user-configurable)
-  const [isKaggleOnline, setIsKaggleOnline] = useState<boolean>(false);
-  const [isKaggleChecking, setIsKaggleChecking] = useState<boolean>(true);
-
-  const checkKaggleStatus = useCallback(() => {
-    setIsKaggleChecking(true);
-    fetch("/api/support/kaggle-url")
-      .then((res) => res.json())
-      .then((data) => {
-        setIsKaggleOnline(Boolean(data.isOnline));
-        setIsKaggleChecking(false);
-      })
-      .catch(() => {
-        setIsKaggleOnline(false);
-        setIsKaggleChecking(false);
-      });
-  }, []);
-
-  useEffect(() => {
-    checkKaggleStatus();
-  }, [checkKaggleStatus]);
   const [openSections, setOpenSections] = useState<Set<string>>(() => new Set(["sleepAndWellness", "vitalSigns"]));
   const [existingRecordId, setExistingRecordId] = useState<string | null>(null);
   const [preloadedRecord, setPreloadedRecord] = useState<StructuredAssessmentRecord | null>(null);
@@ -667,21 +645,6 @@ export default function HealthAssessmentForm() {
       return false;
     }
   }, [preloadedRecord, draft.assessmentDate]);
-
-  // Check backend connectivity on mount
-  useEffect(() => {
-    let active = true;
-    fetch(`${BACKEND_URL}/`)
-      .then((res) => {
-        if (active) setBackendStatus(res.ok ? "connected" : "disconnected");
-      })
-      .catch(() => {
-        if (active) setBackendStatus("disconnected");
-      });
-    return () => {
-      active = false;
-    };
-  }, []);
 
   // Fetch today's cumulative totals on mount
   useEffect(() => {
@@ -1187,73 +1150,8 @@ export default function HealthAssessmentForm() {
               <p className="assessment-subtitle">Record your health information and available mission measurements.</p>
             </div>
           </div>
-          <div style={{ display: "flex", flexDirection: "column", gap: "6px", alignItems: "flex-end" }}>
-            <div className={`assessment-local-status ${backendStatus === "connected" ? "is-connected" : ""}`}>
-              <i aria-hidden="true" />
-              <span>
-                {backendStatus === "connected"
-                  ? "FASTAPI BACKEND CONNECTED · SQLITE (astro_code_blue.db)"
-                  : backendStatus === "checking"
-                  ? "CHECKING BACKEND..."
-                  : "BACKEND DISCONNECTED (Run: cd backend && python -m uvicorn main:app --reload --port 8000)"}
-              </span>
-            </div>
-
-            <button
-              type="button"
-              className={`assessment-ai-status-pill ${isKaggleOnline ? "is-online" : "is-offline"}`}
-              onClick={() => setShowKaggleDrawer((v) => !v)}
-              title="Click to view or update Kaggle Qwen 2.5 AI Tunnel URL"
-            >
-              <span>{isKaggleChecking ? "⏳" : isKaggleOnline ? "🟢" : "🔴"}</span>
-              <strong>
-                {isKaggleChecking
-                  ? "CHECKING KAGGLE AI..."
-                  : isKaggleOnline
-                  ? "QWEN 2.5 GPU AI: ONLINE"
-                  : "KAGGLE AI: OFFLINE (CLICK TO CONFIGURE)"}
-              </strong>
-              <small style={{ opacity: 0.7 }}>⚙️</small>
-            </button>
-          </div>
         </header>
 
-        {showKaggleDrawer && (
-          <div className="kaggle-config-drawer" role="region" aria-label="Kaggle AI Configuration">
-            <div className="kaggle-config-header">
-              <strong>✦ KAGGLE AI LINK CONFIGURATION (QWEN 2.5 7B INSTRUCT)</strong>
-              <button
-                type="button"
-                className="kaggle-config-close"
-                onClick={() => setShowKaggleDrawer(false)}
-                aria-label="Close"
-              >
-                ✕
-              </button>
-            </div>
-            <p style={{ fontSize: "10px", color: "#94a3b8", marginBottom: "10px", fontFamily: "Intel One Mono, monospace" }}>
-              Paste your public Cloudflare Tunnel URL from Kaggle (e.g. <code>https://xxx.trycloudflare.com</code>).
-              When running, your assessments will be evaluated directly by the 7B parameter GPU model.
-            </p>
-            <form onSubmit={handleSaveKaggleUrl} className="kaggle-config-form">
-              <div className="kaggle-config-input-row">
-                <input
-                  type="url"
-                  className="kaggle-config-input"
-                  placeholder="https://your-tunnel-name.trycloudflare.com"
-                  value={inputKaggleUrl}
-                  onChange={(e) => setInputKaggleUrl(e.target.value)}
-                  required
-                />
-                <button type="submit" className="kaggle-config-submit-btn" disabled={isSavingKaggle}>
-                  {isSavingKaggle ? "TESTING..." : "TEST & CONNECT"}
-                </button>
-              </div>
-              {saveSuccessMsg && <p className="kaggle-config-msg is-success">{saveSuccessMsg}</p>}
-              {kaggleError && <p className="kaggle-config-msg is-error">{kaggleError}</p>}
-            </form>
-          </div>
-        )}
 
         <div className="assessment-intro-strip">
           <div>

@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
-import { getKaggleUrl, setKaggleUrl } from "@/app/lib/support-db";
-import { BACKEND_URL } from "@/app/lib/config";
+import { KAGGLE_AI_URL, BACKEND_URL } from "@/app/lib/config";
 
 async function probeKaggleUrl(rawUrl: string): Promise<{ isOnline: boolean; error: string | null }> {
   const url = rawUrl.trim().replace(/\/+$/, "");
@@ -10,7 +9,6 @@ async function probeKaggleUrl(rawUrl: string): Promise<{ isOnline: boolean; erro
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 3500);
 
-    // Try a fast probe
     const res = await fetch(`${url}/docs`, {
       method: "GET",
       signal: controller.signal,
@@ -23,7 +21,6 @@ async function probeKaggleUrl(rawUrl: string): Promise<{ isOnline: boolean; erro
 
     clearTimeout(timeoutId);
 
-    // If we received any HTTP response from Cloudflare/FastAPI, the tunnel is up!
     if (res && res.status < 502) {
       return { isOnline: true, error: null };
     }
@@ -36,8 +33,9 @@ async function probeKaggleUrl(rawUrl: string): Promise<{ isOnline: boolean; erro
   }
 }
 
+// GET — always reads Kaggle URL from env (KAGGLE_AI_URL / NEXT_PUBLIC_KAGGLE_AI_URL)
 export async function GET() {
-  const url = getKaggleUrl();
+  const url = KAGGLE_AI_URL;
   const { isOnline, error } = await probeKaggleUrl(url);
 
   return NextResponse.json({
@@ -48,13 +46,12 @@ export async function GET() {
   });
 }
 
+// POST kept for backward compat but syncs to FastAPI only; URL is env-driven
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const url = (body.url || "").trim();
-    setKaggleUrl(url);
+    const url = (body.url || KAGGLE_AI_URL).trim();
 
-    // Sync to Python FastAPI backend if running
     try {
       fetch(`${BACKEND_URL}/api/set-kaggle-url`, {
         method: "POST",
@@ -66,13 +63,13 @@ export async function POST(req: Request) {
     const { isOnline, error } = await probeKaggleUrl(url);
 
     return NextResponse.json({
-      message: url ? `Kaggle AI URL set to ${url}` : "Kaggle AI URL cleared",
+      message: `Kaggle AI URL: ${url}`,
       url,
       isConfigured: Boolean(url),
       isOnline,
       error,
     });
   } catch (err: any) {
-    return NextResponse.json({ error: err?.message || "Failed to set Kaggle URL" }, { status: 500 });
+    return NextResponse.json({ error: err?.message || "Failed" }, { status: 500 });
   }
 }

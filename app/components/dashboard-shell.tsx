@@ -12,6 +12,7 @@ const navigation = [
   { name: "Past Records", href: "/past-records", icon: "◫" },
   { name: "Health Guidance", href: "/guidance", icon: "✧" },
   { name: "Medical Tasks", href: "/tasks", icon: "☷" },
+  { name: "Online Systems", href: "/systems", icon: "⬡" },
   { name: "Help & Support", href: "/support", icon: "🛟" },
 ];
 
