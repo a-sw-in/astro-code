@@ -262,47 +262,33 @@ export default function PastRecordsDashboard() {
   }, [activeGroup]);
 
   return (
-    <main className="content past-records-page" style={{ padding: "24px 32px", maxWidth: "1600px", margin: "0 auto" }}>
+    <main className="content past-records-page">
       {/* Top Header */}
-      <header style={{ marginBottom: "24px", display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "16px" }}>
-        <div>
-          <span style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "1.2px", color: "#38bdf8", textTransform: "uppercase", display: "block", marginBottom: "4px" }}>
+      <header className="past-records-header">
+        <div className="past-records-heading">
+          <span className="past-records-kicker">
             HISTORICAL MISSION TELEMETRY ARCHIVE
           </span>
-          <h1 style={{ fontSize: "28px", fontWeight: 800, margin: 0, color: "#f8fafc", letterSpacing: "-0.5px" }}>
+          <h1>
             PAST HEALTH RECORDS
           </h1>
-          <p style={{ margin: "6px 0 0", color: "#94a3b8", fontSize: "14px", maxWidth: "800px" }}>
+          <p>
             Select any past mission date to inspect comprehensive telemetry sessions, clinical domain evaluations, countermeasure prescriptions, and AI flight surgeon summaries.
           </p>
         </div>
 
-        <div style={{ display: "flex", gap: "12px", alignItems: "center" }}>
-          <div style={{ background: "rgba(15, 23, 42, 0.75)", border: "1px solid rgba(148, 163, 184, 0.2)", borderRadius: "8px", padding: "8px 16px", textAlign: "right" }}>
-            <span style={{ fontSize: "10px", color: "#64748b", display: "block", fontWeight: 600 }}>DATES ARCHIVED</span>
-            <strong style={{ fontSize: "18px", color: "#f1f5f9" }}>{dayGroups.length} DAYS</strong>
+        <div className="past-records-header-actions">
+          <div className="past-records-stat">
+            <span>DATES ARCHIVED</span>
+            <strong>{dayGroups.length} DAYS</strong>
           </div>
-          <div style={{ background: "rgba(15, 23, 42, 0.75)", border: "1px solid rgba(148, 163, 184, 0.2)", borderRadius: "8px", padding: "8px 16px", textAlign: "right" }}>
-            <span style={{ fontSize: "10px", color: "#64748b", display: "block", fontWeight: 600 }}>TOTAL LOGS</span>
-            <strong style={{ fontSize: "18px", color: "#38bdf8" }}>{structuredRecords.length} SESSIONS</strong>
+          <div className="past-records-stat is-highlighted">
+            <span>TOTAL LOGS</span>
+            <strong>{structuredRecords.length} SESSIONS</strong>
           </div>
           <Link
             href="/assessment"
-            className="overview-primary-cta-btn"
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "8px",
-              padding: "10px 18px",
-              background: "linear-gradient(135deg, #0284c7, #0369a1)",
-              color: "#fff",
-              borderRadius: "8px",
-              fontWeight: 700,
-              fontSize: "12px",
-              letterSpacing: "0.5px",
-              textDecoration: "none",
-              border: "1px solid rgba(56, 189, 248, 0.4)",
-            }}
+            className="past-records-new-assessment"
           >
             + Record Today&apos;s Assessment
           </Link>
@@ -310,83 +296,55 @@ export default function PastRecordsDashboard() {
       </header>
 
       {isLoading ? (
-        <div style={{ padding: "60px", textAlign: "center", color: "#94a3b8" }}>
-          <span style={{ display: "inline-block", width: "32px", height: "32px", border: "3px solid rgba(56, 189, 248, 0.2)", borderTopColor: "#38bdf8", borderRadius: "50%", animation: "spin 1s linear infinite" }} />
-          <p style={{ marginTop: "16px", fontSize: "14px" }}>Loading historical telemetry archive...</p>
+        <div className="past-records-loading">
+          <span className="past-records-spinner" aria-hidden="true" />
+          <p>Loading historical telemetry archive...</p>
         </div>
       ) : dayGroups.length === 0 ? (
-        <div style={{ background: "rgba(15, 23, 42, 0.6)", border: "1px dashed rgba(148, 163, 184, 0.3)", borderRadius: "12px", padding: "48px", textAlign: "center" }}>
-          <span style={{ fontSize: "36px", display: "block", marginBottom: "12px" }}>◫</span>
-          <h2 style={{ fontSize: "20px", color: "#f8fafc", margin: "0 0 8px" }}>No Past Records Available</h2>
-          <p style={{ color: "#94a3b8", fontSize: "14px", maxWidth: "540px", margin: "0 auto 20px" }}>
+        <div className="past-records-empty">
+          <span className="past-records-empty-mark" aria-hidden="true">◫</span>
+          <h2>No Past Records Available</h2>
+          <p>
             No astronaut health assessments have been logged into the database yet. When assessments are completed, each calendar date will automatically archive here into separate cards.
           </p>
           <Link
             href="/assessment"
-            style={{
-              display: "inline-block",
-              padding: "10px 20px",
-              background: "#0284c7",
-              color: "#fff",
-              borderRadius: "6px",
-              fontWeight: 600,
-              textDecoration: "none",
-            }}
+            className="past-records-empty-action"
           >
             + Log First Assessment
           </Link>
         </div>
       ) : (
-        <div style={{ display: "grid", gridTemplateColumns: "300px minmax(0, 1fr)", gap: "24px", alignItems: "start" }}>
+        <div className="past-records-layout">
           {/* Left Column: Date List */}
-          <aside style={{ background: "rgba(15, 23, 42, 0.7)", border: "1px solid rgba(148, 163, 184, 0.2)", borderRadius: "12px", padding: "16px", backdropFilter: "blur(8px)" }}>
-            <span style={{ fontSize: "11px", fontWeight: 700, color: "#64748b", letterSpacing: "1px", textTransform: "uppercase", display: "block", marginBottom: "12px" }}>
+          <aside className="past-records-date-panel">
+            <span className="past-records-date-heading">
               SELECT MISSION DATE ({dayGroups.length})
             </span>
-            <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+            <div className="past-records-date-list">
               {dayGroups.map((group) => {
                 const isSelected = group.dayKey === activeGroup?.dayKey;
-                const statusColor =
-                  group.overallStatus === "Critical" ? "#ef4444" : group.overallStatus === "Caution" ? "#f59e0b" : "#10b981";
+                const statusClass = group.overallStatus.toLowerCase();
 
                 return (
                   <button
                     key={group.dayKey}
                     type="button"
+                    className={`past-records-date-option${isSelected ? " is-active" : ""}`}
                     onClick={() => {
                       setSelectedDayKey(group.dayKey);
                       setSelectedSessionIndex(group.rawRecords.length - 1);
                     }}
-                    style={{
-                      textAlign: "left",
-                      padding: "12px 14px",
-                      borderRadius: "8px",
-                      background: isSelected ? "rgba(2, 132, 199, 0.2)" : "rgba(30, 41, 59, 0.4)",
-                      border: isSelected ? "1px solid #38bdf8" : "1px solid rgba(148, 163, 184, 0.15)",
-                      cursor: "pointer",
-                      transition: "all 0.15s ease",
-                      boxShadow: isSelected ? "0 0 12px rgba(56, 189, 248, 0.2)" : "none",
-                    }}
                   >
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "4px" }}>
-                      <strong style={{ fontSize: "13px", color: isSelected ? "#38bdf8" : "#f1f5f9" }}>
+                    <div className="past-records-date-option-heading">
+                      <strong>
                         {group.dateLabel}
                       </strong>
-                      <span
-                        style={{
-                          fontSize: "9px",
-                          fontWeight: 700,
-                          padding: "2px 6px",
-                          borderRadius: "4px",
-                          background: `${statusColor}22`,
-                          color: statusColor,
-                          border: `1px solid ${statusColor}44`,
-                        }}
-                      >
+                      <span className={`past-records-status-badge status-${statusClass}`}>
                         {group.overallStatus.toUpperCase()}
                       </span>
                     </div>
-                    <div style={{ display: "flex", gap: "8px", fontSize: "11px", color: "#94a3b8" }}>
+                    <div className="past-records-date-meta">
                       <span>◷ {group.totalSleep}h sleep</span>
                       <span>•</span>
                       <span>◌ {group.totalWater}L water</span>
@@ -400,70 +358,50 @@ export default function PastRecordsDashboard() {
           </aside>
 
           {/* Right Column: Separate Cards for the Selected Date */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+          <div className="past-records-detail-list">
             {activeGroup && (
               <>
                 {/* CARD 1: Day Overview & Session Progression */}
-                <div style={{ background: "rgba(15, 23, 42, 0.75)", border: "1px solid rgba(56, 189, 248, 0.3)", borderRadius: "12px", padding: "20px", backdropFilter: "blur(10px)" }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "12px", borderBottom: "1px solid rgba(148, 163, 184, 0.15)", paddingBottom: "14px", marginBottom: "16px" }}>
+                <section className="past-records-card past-records-day-card">
+                  <div className="past-records-card-header">
                     <div>
-                      <span style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "1px", color: "#38bdf8", textTransform: "uppercase" }}>
+                      <span className="past-records-card-kicker">
                         MISSION ARCHIVE DATE
                       </span>
-                      <h2 style={{ fontSize: "22px", fontWeight: 800, margin: "2px 0 0", color: "#f8fafc" }}>
+                      <h2 className="past-records-date-title">
                         {activeGroup.dateLabel}
                       </h2>
                     </div>
 
-                    <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
-                      <span style={{ fontSize: "11px", color: "#94a3b8" }}>
+                    <div className="past-records-day-meta">
+                      <span className="past-records-submission-count">
                         {activeGroup.rawRecords.length} submission{activeGroup.rawRecords.length > 1 ? "s" : ""} recorded on this date
                       </span>
-                      <span
-                        style={{
-                          fontSize: "11px",
-                          fontWeight: 700,
-                          padding: "4px 10px",
-                          borderRadius: "6px",
-                          background:
-                            activeGroup.overallStatus === "Critical"
-                              ? "rgba(239, 68, 68, 0.2)"
-                              : activeGroup.overallStatus === "Caution"
-                              ? "rgba(245, 158, 11, 0.2)"
-                              : "rgba(16, 185, 129, 0.2)",
-                          color:
-                            activeGroup.overallStatus === "Critical"
-                              ? "#ef4444"
-                              : activeGroup.overallStatus === "Caution"
-                              ? "#f59e0b"
-                              : "#10b981",
-                          border: "1px solid currentColor",
-                        }}
-                      >
+                      <span className={`past-records-overall-status status-${activeGroup.overallStatus.toLowerCase()}`}>
                         STATUS: {activeGroup.overallStatus.toUpperCase()}
                       </span>
                     </div>
                   </div>
 
                   {/* Day Cumulative Statistics Badges */}
-                  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "12px", marginBottom: "16px" }}>
-                    <div style={{ background: "rgba(30, 41, 59, 0.5)", border: "1px solid rgba(148, 163, 184, 0.15)", borderRadius: "8px", padding: "12px 14px" }}>
-                      <span style={{ fontSize: "10px", color: "#94a3b8", display: "block", fontWeight: 600 }}>TOTAL SLEEP</span>
-                      <strong style={{ fontSize: "22px", color: "#38bdf8", display: "block", marginTop: "2px" }}>
+                  <div className="past-records-summary-grid">
+                    <div className="past-records-summary-metric">
+                      <span>TOTAL SLEEP</span>
+                      <strong>
                         {activeGroup.totalSleep} <small style={{ fontSize: "12px", color: "#64748b" }}>HRS</small>
                       </strong>
                     </div>
 
-                    <div style={{ background: "rgba(30, 41, 59, 0.5)", border: "1px solid rgba(148, 163, 184, 0.15)", borderRadius: "8px", padding: "12px 14px" }}>
-                      <span style={{ fontSize: "10px", color: "#94a3b8", display: "block", fontWeight: 600 }}>TOTAL HYDRATION</span>
-                      <strong style={{ fontSize: "22px", color: "#38bdf8", display: "block", marginTop: "2px" }}>
+                    <div className="past-records-summary-metric">
+                      <span>TOTAL HYDRATION</span>
+                      <strong>
                         {activeGroup.totalWater} <small style={{ fontSize: "12px", color: "#64748b" }}>L</small>
                       </strong>
                     </div>
 
-                    <div style={{ background: "rgba(30, 41, 59, 0.5)", border: "1px solid rgba(148, 163, 184, 0.15)", borderRadius: "8px", padding: "12px 14px" }}>
-                      <span style={{ fontSize: "10px", color: "#94a3b8", display: "block", fontWeight: 600 }}>TOTAL EXERCISE</span>
-                      <strong style={{ fontSize: "22px", color: "#38bdf8", display: "block", marginTop: "2px" }}>
+                    <div className="past-records-summary-metric">
+                      <span>TOTAL EXERCISE</span>
+                      <strong>
                         {activeGroup.totalExercise} <small style={{ fontSize: "12px", color: "#64748b" }}>MINS</small>
                       </strong>
                     </div>
@@ -471,8 +409,8 @@ export default function PastRecordsDashboard() {
 
                   {/* Multi-Session Progression Breakdown (rendered ONLY when there are multiple sessions on this date) */}
                   {sessionProgression && (
-                    <div style={{ background: "rgba(3, 14, 28, 0.7)", border: "1px solid rgba(56, 189, 248, 0.25)", borderRadius: "8px", padding: "12px 16px" }}>
-                      <span style={{ fontSize: "11px", fontWeight: 700, color: "#38bdf8", letterSpacing: "0.8px", display: "block", marginBottom: "6px" }}>
+                    <div className="past-records-progression">
+                      <span className="past-records-card-kicker">
                         CHRONOLOGICAL SESSION PROGRESSION ON THIS DATE ({sessionProgression.count} SESSIONS)
                       </span>
                       <ul style={{ margin: 0, paddingLeft: "18px", color: "#e2e8f0", fontSize: "12px", lineHeight: "1.7" }}>
@@ -485,33 +423,24 @@ export default function PastRecordsDashboard() {
 
                   {/* Multi-session Inspector Tabs */}
                   {activeGroup.rawRecords.length > 1 && (
-                    <div style={{ marginTop: "14px", display: "flex", gap: "8px", alignItems: "center", flexWrap: "wrap" }}>
-                      <span style={{ fontSize: "11px", color: "#94a3b8", fontWeight: 600 }}>Inspect Session:</span>
+                    <div className="past-records-session-list">
+                      <span>INSPECT SESSION</span>
                       {activeGroup.rawRecords.map((r, idx) => (
                         <button
                           key={r.id}
                           type="button"
                           onClick={() => setSelectedSessionIndex(idx)}
-                          style={{
-                            padding: "4px 10px",
-                            borderRadius: "6px",
-                            fontSize: "11px",
-                            fontWeight: 600,
-                            cursor: "pointer",
-                            background: selectedSessionIndex === idx ? "#0284c7" : "rgba(30, 41, 59, 0.5)",
-                            color: selectedSessionIndex === idx ? "#fff" : "#94a3b8",
-                            border: selectedSessionIndex === idx ? "1px solid #38bdf8" : "1px solid rgba(148, 163, 184, 0.2)",
-                          }}
+                          className={`past-records-session-button${selectedSessionIndex === idx ? " is-active" : ""}`}
                         >
                           Session #{idx + 1} ({formatTime(r.assessmentDate || r.submittedAt)})
                         </button>
                       ))}
                     </div>
                   )}
-                </div>
+                </section>
 
                 {/* CARD 2: Vital Signs Card */}
-                <div style={{ background: "rgba(15, 23, 42, 0.75)", border: "1px solid rgba(148, 163, 184, 0.2)", borderRadius: "12px", padding: "20px" }}>
+                <section className="past-records-card">
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "14px" }}>
                     <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
                       <span style={{ fontSize: "16px" }}>♡</span>
@@ -557,10 +486,10 @@ export default function PastRecordsDashboard() {
                       </strong>
                     </div>
                   </div>
-                </div>
+                </section>
 
                 {/* CARD 3: Sleep, Circadian & Wellness Card */}
-                <div style={{ background: "rgba(15, 23, 42, 0.75)", border: "1px solid rgba(148, 163, 184, 0.2)", borderRadius: "12px", padding: "20px" }}>
+                <section className="past-records-card">
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "14px" }}>
                     <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
                       <span style={{ fontSize: "16px" }}>◷</span>
@@ -602,10 +531,10 @@ export default function PastRecordsDashboard() {
                       </strong>
                     </div>
                   </div>
-                </div>
+                </section>
 
                 {/* CARD 4: Vision & Symptoms (SANS Neuro-Ocular Protocol) Card */}
-                <div style={{ background: "rgba(15, 23, 42, 0.75)", border: "1px solid rgba(148, 163, 184, 0.2)", borderRadius: "12px", padding: "20px" }}>
+                <section className="past-records-card">
                   <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "14px" }}>
                     <span style={{ fontSize: "16px" }}>👁️</span>
                     <h3 style={{ fontSize: "16px", fontWeight: 700, margin: 0, color: "#f8fafc" }}>
@@ -666,10 +595,10 @@ export default function PastRecordsDashboard() {
                       </span>
                     )}
                   </div>
-                </div>
+                </section>
 
                 {/* CARD 5: Space Environment Telemetry Card */}
-                <div style={{ background: "rgba(15, 23, 42, 0.75)", border: "1px solid rgba(148, 163, 184, 0.2)", borderRadius: "12px", padding: "20px" }}>
+                <section className="past-records-card">
                   <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "14px" }}>
                     <span style={{ fontSize: "16px" }}>🌌</span>
                     <h3 style={{ fontSize: "16px", fontWeight: 700, margin: 0, color: "#f8fafc" }}>
@@ -710,11 +639,11 @@ export default function PastRecordsDashboard() {
                       </strong>
                     </div>
                   </div>
-                </div>
+                </section>
 
                 {/* CARD 6: AI Flight Surgeon Evaluation & Prescriptions Card */}
                 {activeAnalysis && (
-                  <div style={{ background: "rgba(15, 23, 42, 0.75)", border: "1px solid rgba(56, 189, 248, 0.35)", borderRadius: "12px", padding: "20px" }}>
+                  <section className="past-records-card past-records-ai-card">
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "14px", flexWrap: "wrap", gap: "8px" }}>
                       <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
                         <span style={{ fontSize: "16px", color: "#38bdf8" }}>✦</span>
@@ -780,7 +709,7 @@ export default function PastRecordsDashboard() {
                         </ul>
                       </div>
                     )}
-                  </div>
+                  </section>
                 )}
               </>
             )}
