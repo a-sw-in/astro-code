@@ -23,11 +23,8 @@ export default function SupportChatDashboard() {
   const [showSummaryModal, setShowSummaryModal] = useState(false);
   const [selectedSummarySession, setSelectedSummarySession] = useState<SupportSessionRecord | null>(null);
 
-  // Kaggle AI tunnel configuration
-  const [kaggleUrl, setKaggleUrl] = useState<string>("");
-  const [showKaggleModal, setShowKaggleModal] = useState(false);
-  const [tempKaggleUrl, setTempKaggleUrl] = useState<string>("");
-  const [kaggleSaveMsg, setKaggleSaveMsg] = useState("");
+  // Kaggle AI status — auto-read from env via API
+  const [kaggleOnline, setKaggleOnline] = useState<boolean | null>(null);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -35,43 +32,21 @@ export default function SupportChatDashboard() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  // Load all sessions and Kaggle AI tunnel status on mount
+  // Load all sessions and auto-check Kaggle AI status on mount
   useEffect(() => {
     loadSessions();
-    loadKaggleUrl();
+    checkKaggleStatus();
   }, []);
 
-  async function loadKaggleUrl() {
+  async function checkKaggleStatus() {
     try {
       const res = await fetch("/api/support/kaggle-url");
       if (res.ok) {
         const data = await res.json();
-        setKaggleUrl(data.url || "");
-        setTempKaggleUrl(data.url || "");
+        setKaggleOnline(Boolean(data.isOnline));
       }
-    } catch (e) {
-      console.warn("Could not load Kaggle AI URL:", e);
-    }
-  }
-
-  async function handleSaveKaggleUrl() {
-    try {
-      const res = await fetch("/api/support/kaggle-url", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ url: tempKaggleUrl }),
-      });
-      if (res.ok) {
-        const data = await res.json();
-        setKaggleUrl(data.url || "");
-        setKaggleSaveMsg("Kaggle AI Tunnel URL updated successfully!");
-        setTimeout(() => {
-          setShowKaggleModal(false);
-          setKaggleSaveMsg("");
-        }, 1200);
-      }
-    } catch (e: any) {
-      setKaggleSaveMsg(`Error saving URL: ${e.message}`);
+    } catch {
+      setKaggleOnline(false);
     }
   }
 
@@ -344,23 +319,13 @@ export default function SupportChatDashboard() {
               </span>
               <span>
                 KAGGLE AI:{" "}
-                <button
-                  type="button"
-                  onClick={() => setShowKaggleModal(true)}
+                <strong
                   style={{
-                    background: "none",
-                    border: "none",
-                    color: kaggleUrl ? "#38bdf8" : "#f59e0b",
-                    textDecoration: "underline",
-                    cursor: "pointer",
-                    fontSize: "inherit",
-                    fontWeight: "bold",
-                    padding: 0,
+                    color: kaggleOnline === null ? "#94a3b8" : kaggleOnline ? "#4ade80" : "#f59e0b",
                   }}
-                  title="Click to configure Cloudflare Tunnel URL"
                 >
-                  {kaggleUrl ? "CONNECTED (QWEN 2.5)" : "CONFIGURE TUNNEL"}
-                </button>
+                  {kaggleOnline === null ? "CHECKING..." : kaggleOnline ? "🟢 QWEN 2.5 ONLINE" : "🔴 OFFLINE"}
+                </strong>
               </span>
             </div>
           </div>
@@ -374,14 +339,6 @@ export default function SupportChatDashboard() {
               title="Delete active chat session"
             >
               <span>🗑️</span> Delete Chat
-            </button>
-            <button
-              className="view-summary-btn"
-              onClick={() => setShowKaggleModal(true)}
-              style={{ fontSize: "0.75rem", padding: "6px 10px" }}
-              title="Configure Kaggle AI Tunnel URL"
-            >
-              ⚡ Kaggle AI Tunnel
             </button>
             {activeSession?.status === "ENDED" ? (
               <button
@@ -630,87 +587,6 @@ export default function SupportChatDashboard() {
         </div>
       )}
 
-      {/* Kaggle AI Tunnel Modal */}
-      {showKaggleModal && (
-        <div className="summary-modal-overlay" onClick={() => setShowKaggleModal(false)}>
-          <div
-            className="summary-modal-card"
-            style={{ maxWidth: "560px" }}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="summary-modal-header">
-              <div>
-                <h2>⚡ Kaggle AI (Qwen 2.5) Model Tunnel</h2>
-                <span style={{ fontSize: "0.78rem", color: "#94a3b8" }}>
-                  Connect your live Cloudflare Tunnel URL to query Kaggle AI and extract clinical responses
-                </span>
-              </div>
-              <button className="close-modal-btn" onClick={() => setShowKaggleModal(false)}>
-                &times;
-              </button>
-            </div>
-
-            <div className="summary-modal-body">
-              <div className="summary-section-box">
-                <h4>Active Cloudflare Tunnel URL</h4>
-                <p style={{ fontSize: "0.82rem", marginBottom: "10px" }}>
-                  Enter the URL generated by cloudflared in your Kaggle notebook (e.g.{" "}
-                  <code>https://explore-mat-had-amazing.trycloudflare.com</code>):
-                </p>
-                <input
-                  type="text"
-                  value={tempKaggleUrl}
-                  onChange={(e) => setTempKaggleUrl(e.target.value)}
-                  placeholder="https://your-tunnel.trycloudflare.com"
-                  style={{
-                    width: "100%",
-                    padding: "10px 14px",
-                    background: "rgba(15, 25, 40, 0.9)",
-                    border: "1px solid #38bdf8",
-                    borderRadius: "6px",
-                    color: "#ffffff",
-                    fontSize: "0.88rem",
-                    outline: "none",
-                  }}
-                />
-              </div>
-
-              {kaggleSaveMsg && (
-                <div
-                  style={{
-                    padding: "8px 12px",
-                    borderRadius: "6px",
-                    background: kaggleSaveMsg.includes("Error")
-                      ? "rgba(239, 68, 68, 0.2)"
-                      : "rgba(34, 197, 94, 0.2)",
-                    color: kaggleSaveMsg.includes("Error") ? "#fca5a5" : "#86efac",
-                    fontSize: "0.82rem",
-                  }}
-                >
-                  {kaggleSaveMsg}
-                </div>
-              )}
-
-              <div className="db-storage-confirm">
-                <span>ℹ</span>
-                <span>
-                  The chat system connects to this endpoint, submits your inquiry with telemetry context, and
-                  extracts the clinical response from the returned JSON automatically.
-                </span>
-              </div>
-            </div>
-
-            <div className="summary-modal-footer">
-              <button className="view-summary-btn" onClick={handleSaveKaggleUrl}>
-                Save & Connect Tunnel
-              </button>
-              <button className="end-session-btn" onClick={() => setShowKaggleModal(false)}>
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

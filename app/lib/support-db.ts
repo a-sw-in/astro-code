@@ -508,19 +508,23 @@ export function formatComprehensiveHealthReview(med: AstronautMedicalTelemetry |
 }
 
 export function getKaggleUrl(): string {
+  const envUrl = (
+    process.env.KAGGLE_AI_URL ||
+    process.env.NEXT_PUBLIC_KAGGLE_AI_URL ||
+    ""
+  ).trim();
+  if (envUrl) {
+    return envUrl.replace(/\/+$/, "");
+  }
   try {
     if (fs.existsSync(KAGGLE_URL_FILE)) {
       const val = fs.readFileSync(KAGGLE_URL_FILE, "utf-8").trim();
-      if (val) return val;
+      if (val) return val.replace(/\/+$/, "");
     }
   } catch (err) {
     console.warn("Could not read kaggle_url.txt:", err);
   }
-  return (
-    process.env.KAGGLE_AI_URL ||
-    process.env.NEXT_PUBLIC_KAGGLE_AI_URL ||
-    "https://optical-art-plot-nascar.trycloudflare.com"
-  ).trim();
+  return "";
 }
 
 export function setKaggleUrl(url: string): void {
