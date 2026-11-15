@@ -1,0 +1,1146 @@
+.health-trends-page {
+  width: 100%;
+  max-width: none;
+  min-height: calc(100vh - 60px);
+  margin: 0;
+  padding: 24px clamp(14px, 2.5vw, 36px) 40px;
+  color: #edf6ff;
+}
+
+.health-trends-page .visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  clip-path: inset(50%);
+}
+
+.trends-shell {
+  width: 100%;
+  max-width: 1560px;
+  margin: 0 auto;
+}
+
+.trends-page-heading,
+.trends-section-heading,
+.trend-chart-heading,
+.trends-dialog-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.trends-page-heading {
+  align-items: flex-end;
+  margin-bottom: 22px;
+}
+
+.trends-eyebrow,
+.trends-section-kicker {
+  color: #00d4ff;
+  font-family: "Intel One Mono", monospace;
+  font-size: 8px;
+  letter-spacing: 1px;
+}
+
+.trends-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 9px;
+}
+
+.trends-eyebrow span,
+.trends-source i {
+  width: 6px;
+  height: 6px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: #00d4ff;
+  box-shadow: 0 0 9px #00d4ff;
+}
+
+.trends-page-heading h1 {
+  color: #f3f8ff;
+  font-family: "Intel One Mono", monospace;
+  font-size: clamp(24px, 3vw, 34px);
+  font-weight: 600;
+  letter-spacing: -1px;
+}
+
+.trends-page-heading > div > p:last-child {
+  margin-top: 7px;
+  color: #94a7ba;
+  font-size: 12px;
+}
+
+.trends-source {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  flex: 0 0 auto;
+  border: 1px solid rgb(0 212 255 / 27%);
+  border-radius: 4px;
+  background: rgb(0 134 194 / 8%);
+  padding: 8px 10px;
+  color: #9cecff;
+  font-family: "Intel One Mono", monospace;
+  font-size: 7px;
+  letter-spacing: 0.7px;
+}
+
+.trends-source.is-simulated i {
+  background: #65d8ff;
+}
+
+.trends-notice {
+  margin-bottom: 10px;
+  border: 1px solid rgb(255 185 85 / 28%);
+  border-radius: 5px;
+  background: rgb(80 48 10 / 20%);
+  padding: 10px 12px;
+  color: #f2d3a0;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.trends-section {
+  margin-top: 18px;
+  border: 1px solid rgb(116 158 194 / 15%);
+  border-radius: 9px;
+  background: var(--assessment-card-background);
+  box-shadow: 0 12px 32px rgb(0 0 0 / 17%);
+  padding: clamp(14px, 1.8vw, 22px);
+}
+
+.trends-section-heading {
+  align-items: flex-end;
+  margin-bottom: 15px;
+}
+
+.trends-section-heading h2 {
+  margin-top: 5px;
+  color: #edf7ff;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.15px;
+}
+
+.trends-section-heading p {
+  margin-top: 5px;
+  color: #7f94a9;
+  font-size: 10px;
+}
+
+.trends-range-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.trends-range-filter button {
+  min-height: 30px;
+  border: 1px solid rgb(128 157 184 / 20%);
+  border-radius: 4px;
+  background: rgb(5 13 24 / 88%);
+  padding: 6px 9px;
+  color: #8fa2b6;
+  font-size: 9px;
+  cursor: pointer;
+  transition: color 140ms ease, border-color 140ms ease, background 140ms ease;
+}
+
+.trends-range-filter button:hover,
+.trends-range-filter button.active {
+  border-color: rgb(0 212 255 / 62%);
+  background: rgb(0 151 211 / 13%);
+  color: #d7f8ff;
+}
+
+.trends-range-filter button:focus-visible,
+.trends-inspect-button:focus-visible,
+.trends-dialog-close:focus-visible {
+  outline: 2px solid #00d4ff;
+  outline-offset: 2px;
+}
+
+.trends-metric-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.trends-metric-card,
+.trend-chart-card {
+  min-width: 0;
+  border: 1px solid rgb(99 143 182 / 17%);
+  border-radius: 7px;
+  background: var(--assessment-card-background);
+}
+
+.trends-metric-card {
+  padding: 13px 14px 12px;
+}
+
+.trends-metric-top {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.trends-metric-index {
+  color: #647d94;
+  font-family: "Intel One Mono", monospace;
+  font-size: 7px;
+}
+
+.trends-metric-glyph {
+  color: #00d4ff;
+  font-size: 14px;
+}
+
+.trends-metric-source {
+  margin-left: auto;
+  color: #70a5bb;
+  font-family: "Intel One Mono", monospace;
+  font-size: 6px;
+  letter-spacing: 0.4px;
+}
+
+.trends-metric-card h3 {
+  margin-top: 9px;
+  color: #9db1c5;
+  font-size: 10px;
+  font-weight: 400;
+}
+
+.trends-metric-value {
+  margin-top: 4px;
+  color: #f4fbff;
+  font-size: clamp(20px, 2.2vw, 27px);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+}
+
+.trends-metric-value small {
+  color: #9bb0c4;
+  font-size: 9px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+.trends-metric-date {
+  margin-top: 6px;
+  color: #73869b;
+  font-size: 8px;
+}
+
+.trends-chart-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.trend-chart-card {
+  padding: 13px 14px 10px;
+}
+
+.trend-chart-heading {
+  align-items: flex-start;
+  margin-bottom: 4px;
+}
+
+.trend-chart-heading h2 {
+  color: #eaf5ff;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.trend-chart-heading p {
+  margin-top: 4px;
+  color: #74899d;
+  font-size: 9px;
+}
+
+.trend-chart-heading > span {
+  border: 1px solid rgb(0 212 255 / 22%);
+  border-radius: 3px;
+  padding: 4px 6px;
+  color: #83dff1;
+  font-family: "Intel One Mono", monospace;
+  font-size: 6px;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.trend-chart-plot {
+  width: 100%;
+  height: 220px;
+  margin-top: 7px;
+}
+
+.trend-chart-empty,
+.trends-empty-state,
+.trends-loading {
+  display: flex;
+  min-height: 130px;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  color: #8194a7;
+  font-size: 10px;
+  text-align: center;
+}
+
+.trends-empty-state {
+  flex-direction: column;
+}
+
+.trends-empty-state span {
+  color: #61778c;
+  font-size: 9px;
+}
+
+.trends-loader {
+  width: 13px;
+  height: 13px;
+  border: 1px solid rgb(0 212 255 / 28%);
+  border-top-color: #00d4ff;
+  border-radius: 50%;
+  animation: trends-spin 800ms linear infinite;
+}
+
+@keyframes trends-spin {
+  to { transform: rotate(360deg); }
+}
+
+.research-context-panel {
+  display: flex;
+  align-items: flex-start;
+  gap: 13px;
+  margin-top: 18px;
+  border: 1px solid rgb(0 212 255 / 24%);
+  border-left: 3px solid #00d4ff;
+  border-radius: 7px;
+  background: var(--assessment-card-background);
+  padding: 15px 17px;
+}
+
+.research-context-mark {
+  display: grid;
+  width: 26px;
+  height: 26px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid rgb(0 212 255 / 40%);
+  border-radius: 50%;
+  color: #5ae6ff;
+  font-family: "Intel One Mono", monospace;
+  font-size: 10px;
+}
+
+.research-context-panel h2 {
+  margin-top: 5px;
+  color: #eaf6ff;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.research-context-panel p {
+  max-width: 980px;
+  margin-top: 5px;
+  color: #a4b6c8;
+  font-size: 10px;
+  line-height: 1.65;
+}
+
+.trends-history-wrap {
+  overflow: auto;
+  border: 1px solid rgb(99 143 182 / 16%);
+  border-radius: 6px;
+}
+
+.trends-history-table {
+  width: 100%;
+  min-width: 1000px;
+  border-collapse: collapse;
+  font-size: 9px;
+}
+
+.trends-history-table th {
+  position: sticky;
+  top: 0;
+  background: #09172a;
+  padding: 10px 9px;
+  color: #82a2bb;
+  font-family: "Intel One Mono", monospace;
+  font-size: 7px;
+  font-weight: 500;
+  letter-spacing: 0.35px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.trends-history-table td {
+  border-top: 1px solid rgb(116 158 194 / 10%);
+  padding: 10px 9px;
+  color: #d7e3ef;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.trends-history-table tbody tr:hover {
+  background: rgb(0 130 200 / 6%);
+}
+
+.trends-history-table td small {
+  color: #76899b;
+  font-size: 7px;
+}
+
+.trends-history-table .trends-observation-cell {
+  max-width: 190px;
+  overflow: hidden;
+  color: #9eafbf;
+  text-overflow: ellipsis;
+}
+
+.trends-inspect-button {
+  border: 1px solid rgb(0 212 255 / 32%);
+  border-radius: 3px;
+  background: rgb(0 134 194 / 8%);
+  padding: 5px 7px;
+  color: #8ee9fa;
+  font-size: 8px;
+  cursor: pointer;
+}
+
+.trends-inspect-button:hover {
+  border-color: #00d4ff;
+  background: rgb(0 212 255 / 12%);
+}
+
+.trends-disclaimer {
+  margin-top: 13px;
+  color: #63778b;
+  font-size: 8px;
+  line-height: 1.5;
+  text-align: right;
+}
+
+.trends-dialog-backdrop {
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgb(0 4 11 / 78%);
+  padding: 18px;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+.trends-record-dialog {
+  width: min(100%, 560px);
+  max-height: min(82vh, 760px);
+  overflow: auto;
+  border: 1px solid rgb(0 212 255 / 38%);
+  border-radius: 9px;
+  background: var(--assessment-card-background);
+  box-shadow: 0 0 36px rgb(0 145 225 / 18%);
+  padding: 20px;
+}
+
+.trends-dialog-heading {
+  align-items: flex-start;
+  border-bottom: 1px solid rgb(116 158 194 / 16%);
+  padding-bottom: 13px;
+}
+
+.trends-dialog-heading h2 {
+  margin-top: 5px;
+  color: #f1f8ff;
+  font-size: 16px;
+}
+
+.trends-dialog-heading p {
+  margin-top: 4px;
+  color: #8398ad;
+  font-size: 9px;
+}
+
+.trends-dialog-close {
+  width: 27px;
+  height: 27px;
+  border: 1px solid rgb(0 212 255 / 32%);
+  border-radius: 4px;
+  background: rgb(0 105 165 / 12%);
+  color: #b7edff;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.trends-record-details {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+  margin-top: 15px;
+}
+
+.trends-record-details > div {
+  border: 1px solid rgb(116 158 194 / 13%);
+  border-radius: 5px;
+  background: var(--assessment-card-background);
+  padding: 10px;
+}
+
+.trends-record-details dt {
+  color: #7f96aa;
+  font-size: 8px;
+}
+
+.trends-record-details dd {
+  margin-top: 5px;
+  color: #eff8ff;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+.trends-record-observations {
+  margin-top: 13px;
+  border-top: 1px solid rgb(116 158 194 / 16%);
+  padding-top: 12px;
+}
+
+.trends-record-observations span {
+  color: #59dcf5;
+  font-family: "Intel One Mono", monospace;
+  font-size: 7px;
+  letter-spacing: 0.6px;
+}
+
+.trends-record-observations p {
+  margin-top: 6px;
+  color: #cad7e4;
+  font-size: 10px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+@media (max-width: 1050px) {
+  .trends-metric-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .trends-section-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 700px) {
+  .health-trends-page {
+    padding: 20px 12px 30px;
+  }
+
+  .trends-page-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .trends-source {
+    align-self: flex-start;
+  }
+
+  .trends-range-filter {
+    width: 100%;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding: 2px 1px 5px;
+  }
+
+  .trends-range-filter button {
+    flex: 0 0 auto;
+  }
+
+  .trends-chart-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .trend-chart-plot {
+    height: 205px;
+  }
+
+  .research-context-panel {
+    padding: 12px;
+  }
+
+  .trends-record-dialog {
+    padding: 15px;
+  }
+}
+
+@media (max-width: 420px) {
+  .trends-metric-grid,
+  .trends-record-details {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .trends-metric-card {
+    padding: 11px 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .trends-loader {
+    animation: none;
+  }
+
+  .trends-range-filter button {
+    transition: none;
+  }
+}
+
+
+/* =====================================
+   ASSESSMENT ANALYSIS - IMPROVED STYLING
+===================================== */
+
+.analysis-panel {
+  margin-top: 18px;
+  border: 1px solid rgb(0 212 255 / 20%);
+  border-radius: 9px;
+  background: var(--assessment-card-background);
+  padding: 18px;
+}
+
+.analysis-panel h2 {
+  color: #edf7ff;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.analysis-panel h3 {
+  color: #bdefff;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.analysis-content {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.analysis-group {
+  min-width: 0;
+  border: 1px solid rgb(116 158 194 / 16%);
+  border-radius: 7px;
+  background: rgb(5 18 32 / 55%);
+  padding: 13px 14px;
+}
+
+.analysis-group h3 {
+  margin-bottom: 10px;
+}
+
+.analysis-group ul {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin: 0;
+  padding-left: 17px;
+}
+
+.analysis-group li {
+  padding-left: 2px;
+  color: #b8c9d9;
+  font-size: 10px;
+  line-height: 1.65;
+}
+
+.analysis-group li::marker {
+  color: #00c9ef;
+}
+
+.analysis-group p {
+  color: #8298ad;
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+@media (max-width: 700px) {
+  .analysis-content {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .analysis-panel {
+    padding: 14px;
+  }
+
+  .analysis-group {
+    padding: 11px;
+  }
+}
+
+
+.analysis-change {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  list-style: none;
+}
+
+.analysis-change-indicator {
+  flex: 0 0 18px;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.analysis-change-increased .analysis-change-indicator {
+  color: #42c9ff;
+}
+
+.analysis-change-decreased .analysis-change-indicator {
+  color: #b69aff;
+}
+
+.analysis-change-changed .analysis-change-indicator {
+  color: #9aabbc;
+}
+
+
+
+.trends-alert-box {
+  border-radius: 6px;
+  padding: 12px 16px;
+  margin-bottom: 14px;
+}
+
+.trends-alert-box.severity-critical {
+  background: rgba(255, 59, 48, 0.15);
+  border: 1px solid rgba(255, 59, 48, 0.5);
+  color: #ff3b30;
+}
+
+.trends-alert-box.severity-high {
+  background: rgba(255, 107, 0, 0.15);
+  border: 1px solid rgba(255, 107, 0, 0.5);
+  color: #ff6b00;
+}
+
+.trends-alert-box.severity-moderate {
+  background: rgba(255, 170, 0, 0.12);
+  border: 1px solid rgba(255, 170, 0, 0.4);
+  color: #ffaa00;
+}
+
+.trends-alert-box.severity-low {
+  background: rgba(0, 212, 255, 0.08);
+  border: 1px solid rgba(0, 212, 255, 0.3);
+  color: #00d4ff;
+}
+
+.trends-alert-box strong {
+  display: block;
+  font-family: "Intel One Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.trends-alert-box p {
+  margin: 0;
+  color: #e2e8f0;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+
+/* -------------------------------------------------------------------------- */
+/* AI Health Trajectory & Percent Improvement Styles                          */
+/* -------------------------------------------------------------------------- */
+
+.trends-trajectory-panel {
+  background: rgba(3, 11, 20, 0.8);
+  border: 1px solid rgba(0, 212, 255, 0.35);
+  border-radius: 10px;
+  padding: clamp(18px, 2.8vw, 30px);
+  margin-top: 24px;
+  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.4);
+}
+
+.trends-trajectory-panel.trajectory-improving {
+  border-left: 4px solid #00e599;
+}
+
+.trends-trajectory-panel.trajectory-degrading {
+  border-left: 4px solid #ff3b30;
+}
+
+.trends-trajectory-panel.trajectory-stable {
+  border-left: 4px solid #00d4ff;
+}
+
+.trajectory-top-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 16px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  flex-wrap: wrap;
+}
+
+.trajectory-direction-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: "Intel One Mono", monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  padding: 6px 14px;
+  border-radius: 4px;
+}
+
+.trajectory-direction-badge.badge-improving {
+  background: rgba(0, 229, 153, 0.15);
+  border: 1px solid rgba(0, 229, 153, 0.5);
+  color: #00e599;
+}
+
+.trajectory-direction-badge.badge-degrading {
+  background: rgba(255, 59, 48, 0.18);
+  border: 1px solid rgba(255, 59, 48, 0.55);
+  color: #ff3b30;
+}
+
+.trajectory-direction-badge.badge-stable {
+  background: rgba(0, 212, 255, 0.15);
+  border: 1px solid rgba(0, 212, 255, 0.45);
+  color: #00d4ff;
+}
+
+.trajectory-direction-badge.badge-baseline {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #94a3b8;
+}
+
+.trajectory-summary-narrative {
+  color: #e2e8f0;
+  font-size: 13px;
+  line-height: 1.65;
+  margin: 0 0 20px;
+}
+
+.metric-compare-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.metric-compare-card {
+  background: rgba(6, 19, 33, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: border-color 0.2s ease;
+}
+
+.metric-compare-card:hover {
+  border-color: rgba(0, 212, 255, 0.4);
+}
+
+.metric-compare-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.metric-compare-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: #f8fafc;
+}
+
+.metric-trend-pill {
+  font-family: "Intel One Mono", monospace;
+  font-size: 8px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+.metric-trend-pill.trend-improving {
+  background: rgba(0, 229, 153, 0.15);
+  color: #00e599;
+  border: 1px solid rgba(0, 229, 153, 0.4);
+}
+
+.metric-trend-pill.trend-degrading {
+  background: rgba(255, 59, 48, 0.15);
+  color: #ff3b30;
+  border: 1px solid rgba(255, 59, 48, 0.4);
+}
+
+.metric-trend-pill.trend-stable {
+  background: rgba(0, 212, 255, 0.1);
+  color: #00d4ff;
+  border: 1px solid rgba(0, 212, 255, 0.3);
+}
+
+.metric-values-row {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.metric-prev-val {
+  font-size: 11px;
+  color: #64748b;
+}
+
+.metric-arrow {
+  color: #00d4ff;
+  font-size: 11px;
+}
+
+.metric-curr-val {
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.metric-curr-val small {
+  font-size: 10px;
+  color: #94a3b8;
+  font-weight: 400;
+}
+
+.metric-percent-delta {
+  font-family: "Intel One Mono", monospace;
+  font-size: 10px;
+  margin-left: auto;
+  font-weight: 700;
+}
+
+.metric-percent-delta.delta-improving {
+  color: #00e599;
+}
+
+.metric-percent-delta.delta-degrading {
+  color: #ff3b30;
+}
+
+.metric-percent-delta.delta-stable {
+  color: #00d4ff;
+}
+
+.trajectory-badges-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.trajectory-pct-badge {
+  font-family: "Intel One Mono", monospace;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+  background: rgba(0, 212, 255, 0.12);
+  border: 1px solid rgba(0, 212, 255, 0.4);
+  color: #00d4ff;
+}
+
+.trajectory-pct-badge.pct-positive {
+  background: rgba(0, 229, 153, 0.15);
+  border-color: rgba(0, 229, 153, 0.5);
+  color: #00e599;
+}
+
+.trajectory-pct-badge.pct-negative {
+  background: rgba(255, 59, 48, 0.15);
+  border-color: rgba(255, 59, 48, 0.5);
+  color: #ff3b30;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   AI CROSS-PERIOD OVERVIEW CARD
+   ═══════════════════════════════════════════════════════════════════ */
+
+.trends-ai-overview-card {
+  margin: 0 0 28px;
+  border: 1px solid rgba(0, 212, 255, 0.28);
+  border-radius: 10px;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 20, 40, 0.92) 0%,
+    rgba(0, 10, 28, 0.96) 60%,
+    rgba(0, 30, 55, 0.88) 100%
+  );
+  overflow: hidden;
+  box-shadow: 0 4px 32px rgba(0, 212, 255, 0.07), 0 1px 4px rgba(0,0,0,0.5);
+}
+
+.ai-overview-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid rgba(0, 212, 255, 0.12);
+}
+
+.ai-overview-header-left h2 {
+  margin: 4px 0 4px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #e8f8ff;
+  letter-spacing: 0.01em;
+}
+
+.ai-overview-header-left p {
+  margin: 0;
+  font-size: 12px;
+  color: #7a9db8;
+}
+
+.ai-overview-header-right {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  padding-top: 4px;
+}
+
+.ai-overview-source-badge {
+  font-family: 'Intel One Mono', 'Courier New', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 4px 10px;
+  border-radius: 4px;
+  background: rgba(0, 212, 255, 0.12);
+  border: 1px solid rgba(0, 212, 255, 0.4);
+  color: #38bdf8;
+  white-space: nowrap;
+}
+
+.ai-overview-source-badge.ai-overview-source-local {
+  background: rgba(250, 204, 21, 0.1);
+  border-color: rgba(250, 204, 21, 0.3);
+  color: #fbbf24;
+}
+
+/* Three period mini-chips row */
+.ai-overview-periods-row {
+  display: flex;
+  gap: 12px;
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(0, 212, 255, 0.08);
+  flex-wrap: wrap;
+}
+
+.ai-overview-period-chip {
+  flex: 1;
+  min-width: 160px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 12px 14px;
+  border-radius: 7px;
+  border: 1px solid rgba(0, 212, 255, 0.18);
+  background: rgba(0, 212, 255, 0.04);
+}
+
+.ai-overview-period-chip.period-chip-improving {
+  border-color: rgba(34, 197, 94, 0.3);
+  background: rgba(34, 197, 94, 0.05);
+}
+
+.ai-overview-period-chip.period-chip-degrading {
+  border-color: rgba(239, 68, 68, 0.3);
+  background: rgba(239, 68, 68, 0.05);
+}
+
+.ai-overview-period-chip.period-chip-stable {
+  border-color: rgba(0, 212, 255, 0.2);
+  background: rgba(0, 212, 255, 0.04);
+}
+
+.period-chip-label {
+  font-family: 'Intel One Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: #64829a;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.period-chip-direction {
+  font-family: 'Intel One Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  color: #c8e6f8;
+  letter-spacing: 0.03em;
+  line-height: 1.3;
+}
+
+.period-chip-pct {
+  font-family: 'Intel One Mono', monospace;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.period-chip-pct.pct-pos { color: #22c55e; }
+.period-chip-pct.pct-neg { color: #ef4444; }
+
+/* AI narrative text block */
+.ai-overview-narrative {
+  padding: 18px 24px 22px;
+}
+
+.ai-overview-narrative p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.75;
+  color: #b8d4e8;
+  letter-spacing: 0.01em;
+}
+
+.ai-overview-empty {
+  color: #4a6a7e !important;
+  font-style: italic;
+}
+
+@media (max-width: 640px) {
+  .ai-overview-header {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .ai-overview-periods-row {
+    flex-direction: column;
+  }
+  .ai-overview-period-chip {
+    min-width: unset;
+  }
+}
